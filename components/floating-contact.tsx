@@ -22,6 +22,19 @@ export function FloatingContact() {
             : "translate-y-4 opacity-0 pointer-events-none"
         )}
       >
+
+        {/* Facebook Button */}
+        <a
+          href={`https://m.me/PremiumSEOTools?text=Hello%20I%20have%20a%20question`} // Replace with actual page ID or link
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-3 bg-[#1877F2] text-white px-4 py-3 rounded-full shadow-lg hover:bg-[#165ec9] transition-all hover:scale-105 active:scale-95 group"
+          title="Chat on Facebook"
+        >
+          <span className="text-sm font-medium whitespace-nowrap">Facebook Chat</span>
+          <MessageCircle className="w-5 h-5 fill-current" />
+        </a>
+
         {/* WhatsApp Button */}
         <a
           href={`https://wa.me/${whatsappNumber}?text=${whatsappMessage}`}

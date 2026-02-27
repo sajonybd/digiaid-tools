@@ -1,12 +1,14 @@
 import { NextResponse } from "next/server";
 import dbConnect from "@/lib/mongodb";
 import Order from "@/models/Order";
+import Coupon from "@/models/Coupon"; 
+import Package from "@/models/Package";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 
 export async function GET(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   await dbConnect();
   const session = await getServerSession(authOptions);
@@ -16,12 +18,13 @@ export async function GET(
   }
   
   const user = session.user as any;
-  const { id } = params;
+  const { id } = await params;
+
+  console.log("Session User ID:", user);
+  console.log("Searching for Order ID:", id);
 
   try {
     const order = await Order.findOne({ _id: id, user: user.id })
-      .populate('items.package')
-      .populate('couponApplied');
 
     if (!order) {
       return NextResponse.json({ error: "Order not found" }, { status: 404 });
