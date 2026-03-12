@@ -4,11 +4,11 @@ import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import dbConnect from "@/lib/mongodb";
 import Tool from "@/models/Tool"; // Ensure model is compiled
+import { buildSiteMetadata } from "@/lib/site-settings";
 
-export const metadata: Metadata = {
-  title: 'Free Tools - Uddokta Tools',
-  description: 'Access our collection of free tools to help your business grow.',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return buildSiteMetadata('Free Tools');
+}
 
 export const dynamic = 'force-dynamic';
 

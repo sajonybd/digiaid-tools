@@ -6,11 +6,11 @@ import Package from "@/models/Package";
 import Tool from "@/models/Tool";
 import { ProductCard } from "@/components/product-card";
 import { FeaturedPackageCard } from "@/components/featured-package-card";
+import { buildSiteMetadata } from "@/lib/site-settings";
 
-export const metadata: Metadata = {
-  title: 'Packages - Uddokta Tools',
-  description: 'Choose the best package for your SEO needs.',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return buildSiteMetadata('Packages');
+}
 
 export const dynamic = 'force-dynamic';
 

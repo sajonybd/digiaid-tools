@@ -27,7 +27,13 @@ export async function GET() {
       // Admin sees everything as active
       if (user.role === 'admin') {
           return NextResponse.json(allTools.map(t => ({
-              ...t.toObject(),
+              _id: t._id,
+              name: t.name,
+              description: t.description,
+              category: t.category,
+              status: t.status,
+              url: t.url,
+              loginMethod: t.loginMethod || 'none',
               access: { status: 'active', expiryDate: null }
           })));
       }
@@ -96,7 +102,13 @@ export async function GET() {
       const userTools = allTools
         .filter(t => toolAccess.has(t._id.toString()))
         .map(t => ({
-            ...t.toObject(),
+            _id: t._id,
+            name: t.name,
+            description: t.description,
+            category: t.category,
+            status: t.status,
+            url: t.url,
+            loginMethod: t.loginMethod || 'none',
             access: toolAccess.get(t._id.toString())
         }));
       

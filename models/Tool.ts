@@ -18,6 +18,15 @@ const ToolSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'CustomPage',
   },
+  loginMethod: {
+    type: String,
+    enum: ['none', 'cookies', 'localstorage', 'indexeddb'],
+    default: 'none',
+  },
+  loginData: {
+    type: mongoose.Schema.Types.Mixed,
+    default: null,
+  },
   icon: {
     type: String,
     // Store URL or icon name
@@ -79,6 +88,12 @@ if (mongoose.models.Tool) {
             packageId: { type: mongoose.Schema.Types.ObjectId, ref: 'Package' }
         });
         console.log("Hot-patched Tool schema with new fields");
+    }
+    if (!schema.path('loginMethod')) {
+        schema.add({
+            loginMethod: { type: String, enum: ['none', 'cookies', 'localstorage', 'indexeddb'], default: 'none' },
+            loginData: { type: mongoose.Schema.Types.Mixed, default: null }
+        });
     }
 }
 

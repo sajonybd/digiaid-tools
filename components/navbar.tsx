@@ -5,7 +5,6 @@ import { useState } from "react"
 import Link from "next/link"
 import { Menu, X } from "lucide-react"
 import { useSession, signOut } from "next-auth/react"
-import Image from "next/image"
 import { useCurrency } from "@/context/CurrencyContext"
 import {
   Select,
@@ -14,19 +13,21 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { useSiteSettings } from "@/components/providers/site-settings-provider"
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
   const { data: session } = useSession()
   const { currency, setCurrency } = useCurrency()
+  const siteSettings = useSiteSettings()
 
   return (
     <nav className="fixed top-0 w-full bg-background/95 backdrop-blur-md border-b-2 border-primary/10 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <Link href="/" className="flex items-center gap-2 group">
-            <Image src="/logo.png" alt="Logo" width={32} height={32} />
-            <span className="font-bold text-lg text-foreground">Uddokta Tools</span>
+            <img src={siteSettings.logoUrl} alt={siteSettings.siteName} width={32} height={32} className="h-8 w-8 object-contain" />
+            <span className="font-bold text-lg text-foreground">{siteSettings.siteName}</span>
           </Link>
 
           <div className="hidden md:flex items-center gap-8">

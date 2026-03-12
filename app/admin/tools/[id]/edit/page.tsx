@@ -31,6 +31,8 @@ export default function EditToolPage() {
 
   const [categories, setCategories] = useState<any[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const [loginMethod, setLoginMethod] = useState<string>("none");
+  const [loginDataText, setLoginDataText] = useState<string>("");
 
   useEffect(() => {
     if (!id) return;
@@ -45,6 +47,8 @@ export default function EditToolPage() {
         setPages(pagesData);
         setCategories(categoriesData);
         setSelectedCategory(toolData.category);
+        setLoginMethod(toolData.loginMethod || "none");
+        setLoginDataText(toolData.loginData ? JSON.stringify(toolData.loginData, null, 2) : "");
         // Set initial internal state
         if (toolData.linkedPage) setIsInternal(true);
         setLoading(false);
@@ -69,6 +73,23 @@ export default function EditToolPage() {
     if (data.linkedPage === 'none') {
         data.linkedPage = null as any;
     }
+
+    if (loginMethod !== "none") {
+      if (!loginDataText.trim()) {
+        alert("Please paste JSON login data for the selected login method.");
+        setSubmitting(false);
+        return;
+      }
+      try {
+        JSON.parse(loginDataText);
+      } catch {
+        alert("Login data must be valid JSON.");
+        setSubmitting(false);
+        return;
+      }
+    }
+    data.loginMethod = loginMethod;
+    data.loginData = loginMethod === "none" ? null : JSON.parse(loginDataText);
 
     try {
       const res = await fetch(`/api/tools/${id}`, {
@@ -207,6 +228,38 @@ export default function EditToolPage() {
           <Label htmlFor="description">Description</Label>
           <Textarea id="description" name="description" defaultValue={tool.description} required />
         </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="loginMethod">Login Method</Label>
+          <Select name="loginMethod" value={loginMethod} onValueChange={setLoginMethod}>
+            <SelectTrigger>
+              <SelectValue placeholder="Select login method" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="none">None (Direct access)</SelectItem>
+              <SelectItem value="cookies">Cookies</SelectItem>
+              <SelectItem value="localstorage">LocalStorage</SelectItem>
+              <SelectItem value="indexeddb">IndexedDB</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+
+        {loginMethod !== "none" && (
+          <div className="space-y-2">
+            <Label htmlFor="loginData">Login Data JSON</Label>
+            <Textarea
+              id="loginData"
+              value={loginDataText}
+              onChange={(e) => setLoginDataText(e.target.value)}
+              placeholder='Paste JSON data here...'
+              rows={8}
+              required
+            />
+            <p className="text-xs text-muted-foreground">
+              Provide valid JSON. This will be applied by the browser extension before launching the tool.
+            </p>
+          </div>
+        )}
 
         <div className="flex justify-end gap-4">
             <Button type="button" variant="outline" onClick={() => router.back()}>Cancel</Button>

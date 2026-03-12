@@ -89,6 +89,11 @@ export function DashboardSidebar() {
        icon: ListOrdered,
      },
     {
+       title: "Site Settings",
+       href: "/admin/settings",
+       icon: Settings,
+     },
+    {
        title: "Manage Packages",
        href: "/admin/packages",
        icon: Package,

@@ -2,6 +2,7 @@
 
 import { Card } from "@/components/ui/card"
 import { Zap, Lock, Users, Headphones, CreditCard, Gauge } from "lucide-react"
+import { useSiteSettings } from "@/components/providers/site-settings-provider"
 
 const features = [
   {
@@ -37,11 +38,13 @@ const features = [
 ]
 
 export function FeaturesSection() {
+  const siteSettings = useSiteSettings()
+
   return (
     <section id="features" className="py-20 px-4 sm:px-6 lg:px-8 bg-card/30">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-foreground mb-4">Why Choose Uddokta Tools?</h2>
+          <h2 className="text-4xl font-bold text-foreground mb-4">Why Choose {siteSettings.siteName}?</h2>
           <p className="text-foreground/60 text-lg">Everything you need to succeed, nothing you don't</p>
         </div>
 

@@ -18,7 +18,11 @@ export async function GET(req: Request) {
   }
 
   try {
-    const tools = await Tool.find(query).sort({ createdAt: -1 });
+    const toolQuery = Tool.find(query);
+    if (!isAdmin) {
+      toolQuery.select("-loginData");
+    }
+    const tools = await toolQuery.sort({ createdAt: -1 });
     return NextResponse.json(tools);
   } catch (error) {
     return NextResponse.json({ error: "Failed to fetch tools" }, { status: 500 });

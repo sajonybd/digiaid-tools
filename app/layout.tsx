@@ -6,7 +6,9 @@ import { CurrencyProvider } from "@/context/CurrencyContext";
 import { Toaster } from "@/components/ui/toaster";
 import { Analytics } from "@vercel/analytics/next";
 import { FloatingContact } from "@/components/floating-contact";
-import Script from "next/script"; // Import Script component
+import { TrackingScripts, TrackingNoscript } from "@/components/tracking-scripts";
+import { buildSiteMetadata, getPublicSiteSettings } from "@/lib/site-settings";
+import { SiteSettingsProvider } from "@/components/providers/site-settings-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,50 +20,35 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "Uddokta Tools - Premium SEO Tools",
-  description: "Get access to premium SEO tools at affordable prices",
-  icons: {
-    icon: "/favicon.ico",
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return buildSiteMetadata();
+}
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const siteSettings = await getPublicSiteSettings();
+
   return (
     <html lang="en">
       <head>
-        {/* Google Tag Manager - Script */}
-        <Script id="google-tag-manager" strategy="afterInteractive">
-          {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-          new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-          j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-          'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-          })(window,document,'script','dataLayer','GTM-KFKWPHDD');`}
-        </Script>
+        <TrackingScripts />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        {/* Google Tag Manager (noscript) */}
-        <noscript>
-          <iframe 
-            src="https://www.googletagmanager.com/ns.html?id=GTM-KFKWPHDD"
-            height="0" 
-            width="0" 
-            style={{ display: 'none', visibility: 'hidden' }} 
-          />
-        </noscript>
+        <TrackingNoscript />
 
-        <AuthProvider>
-          <CurrencyProvider>
-            {children}
-          </CurrencyProvider>
-          <Toaster />
-          <Analytics />
-          <FloatingContact />
-        </AuthProvider>
+        <SiteSettingsProvider value={siteSettings}>
+          <AuthProvider>
+            <CurrencyProvider>
+              {children}
+            </CurrencyProvider>
+            <Toaster />
+            <Analytics />
+            <FloatingContact />
+          </AuthProvider>
+        </SiteSettingsProvider>
       </body>
     </html>
   );

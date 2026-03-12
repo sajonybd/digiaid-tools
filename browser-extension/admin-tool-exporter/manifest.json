@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "SEO Tool Session Exporter",
+  "description": "Export cookies, localStorage, and IndexedDB data from the current site for admin tool configuration.",
+  "version": "1.0.0",
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "cookies",
+    "tabs"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "action": {
+    "default_title": "SEO Session Exporter",
+    "default_popup": "popup.html"
+  }
+}

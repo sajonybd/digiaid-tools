@@ -8,6 +8,11 @@ import Package from "@/models/Package";
 
 export async function GET(req: Request, props: { params: Promise<{ id: string }> }) {
   const params = await props.params;
+  const session = await getServerSession(authOptions);
+  if (!session || (session.user as any).role !== "admin") {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   await dbConnect();
   try {
     const tool = await Tool.findById(params.id);

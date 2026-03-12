@@ -3,13 +3,17 @@
 import React, { useState } from "react";
 import { MessageCircle, Phone, X, MessageSquare } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useSiteSettings } from "@/components/providers/site-settings-provider";
 
 export function FloatingContact() {
   const [isOpen, setIsOpen] = useState(false);
+  const siteSettings = useSiteSettings();
 
-  const phoneNumber = "01940268500";
-  const whatsappNumber = "8801940268500"; // Assuming BD international code
-  const whatsappMessage = encodeURIComponent("Hello! I need some support with Uddokta Tools.");
+  const phoneNumber = siteSettings.supportPhone;
+  const whatsappNumber = siteSettings.whatsappNumber;
+  const whatsappMessage = encodeURIComponent(
+    siteSettings.whatsappMessage || `Hello! I need some support with ${siteSettings.siteName}.`
+  );
 
   return (
     <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-4 pointer-events-none">
@@ -24,38 +28,44 @@ export function FloatingContact() {
       >
 
         {/* Facebook Button */}
-        <a
-          href={`https://m.me/PremiumSEOTools?text=Hello%20I%20have%20a%20question`} // Replace with actual page ID or link
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center gap-3 bg-[#1877F2] text-white px-4 py-3 rounded-full shadow-lg hover:bg-[#165ec9] transition-all hover:scale-105 active:scale-95 group"
-          title="Chat on Facebook"
-        >
-          <span className="text-sm font-medium whitespace-nowrap">Facebook Chat</span>
-          <MessageCircle className="w-5 h-5 fill-current" />
-        </a>
+        {siteSettings.facebookChatUrl && (
+          <a
+            href={siteSettings.facebookChatUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-3 bg-[#1877F2] text-white px-4 py-3 rounded-full shadow-lg hover:bg-[#165ec9] transition-all hover:scale-105 active:scale-95 group"
+            title="Chat on Facebook"
+          >
+            <span className="text-sm font-medium whitespace-nowrap">Facebook Chat</span>
+            <MessageCircle className="w-5 h-5 fill-current" />
+          </a>
+        )}
 
         {/* WhatsApp Button */}
-        <a
-          href={`https://wa.me/${whatsappNumber}?text=${whatsappMessage}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center gap-3 bg-[#25D366] text-white px-4 py-3 rounded-full shadow-lg hover:bg-[#20ba59] transition-all hover:scale-105 active:scale-95 group"
-          title="Chat on WhatsApp"
-        >
-          <span className="text-sm font-medium whitespace-nowrap">WhatsApp Chat</span>
-          <MessageCircle className="w-5 h-5 fill-current" />
-        </a>
+        {whatsappNumber && (
+          <a
+            href={`https://wa.me/${whatsappNumber}?text=${whatsappMessage}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-3 bg-[#25D366] text-white px-4 py-3 rounded-full shadow-lg hover:bg-[#20ba59] transition-all hover:scale-105 active:scale-95 group"
+            title="Chat on WhatsApp"
+          >
+            <span className="text-sm font-medium whitespace-nowrap">WhatsApp Chat</span>
+            <MessageCircle className="w-5 h-5 fill-current" />
+          </a>
+        )}
 
         {/* Call Button */}
-        <a
-          href={`tel:${phoneNumber}`}
-          className="flex items-center gap-3 bg-blue-600 text-white px-4 py-3 rounded-full shadow-lg hover:bg-blue-700 transition-all hover:scale-105 active:scale-95 group"
-          title="Call Support"
-        >
-          <span className="text-sm font-medium whitespace-nowrap">Call: {phoneNumber}</span>
-          <Phone className="w-5 h-5 fill-current" />
-        </a>
+        {phoneNumber && (
+          <a
+            href={`tel:${phoneNumber}`}
+            className="flex items-center gap-3 bg-blue-600 text-white px-4 py-3 rounded-full shadow-lg hover:bg-blue-700 transition-all hover:scale-105 active:scale-95 group"
+            title="Call Support"
+          >
+            <span className="text-sm font-medium whitespace-nowrap">Call: {phoneNumber}</span>
+            <Phone className="w-5 h-5 fill-current" />
+          </a>
+        )}
       </div>
 
       {/* Main Toggle Button */}

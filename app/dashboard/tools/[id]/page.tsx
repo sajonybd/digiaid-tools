@@ -8,6 +8,7 @@ import User from "@/models/User";
 import { notFound, redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
+import { ToolAccessLauncher } from "@/components/tool-access-launcher";
 
 interface ToolAccessPageProps {
   params: Promise<{
@@ -115,15 +116,13 @@ export default async function ToolAccessPage(props: ToolAccessPageProps) {
                       <p className="text-sm text-foreground/80">
                           Click the button below to launch {tool.name}. A new window will open.
                       </p>
-                      <Button className="w-full h-12 text-lg" asChild>
-                          <a href={tool.url} target="_blank" rel="noopener noreferrer">
-                              Launch {tool.name}
-                          </a>
-                      </Button>
+                      <ToolAccessLauncher toolId={id} toolName={tool.name} />
                       <div className="flex items-start gap-2 text-xs text-muted-foreground bg-background/50 p-2 rounded">
                           <Info className="h-4 w-4 mt-0.5" />
                           <p>
-                              If the tool does not open or asks for login, please ensure you have the extension installed (if required) or contact support.
+                              {tool.loginMethod && tool.loginMethod !== "none"
+                                ? "This tool uses extension-based auto-login. Make sure the browser extension is installed and enabled."
+                                : "If the tool does not open, please try again or contact support."}
                           </p>
                       </div>
                   </CardContent>
@@ -177,8 +176,12 @@ export default async function ToolAccessPage(props: ToolAccessPageProps) {
                        </div>
                         <div className="flex justify-between text-sm">
                            <span className="text-muted-foreground">Access Type</span>
-                           <span className="font-medium">Direct Link</span>
-                       </div>
+                           <span className="font-medium">
+                            {tool.loginMethod && tool.loginMethod !== "none"
+                              ? `Extension (${tool.loginMethod})`
+                              : "Direct Link"}
+                           </span>
+                        </div>
                    </CardContent>
                </Card>
           </div>

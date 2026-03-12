@@ -4,11 +4,11 @@ import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import dbConnect from "@/lib/mongodb";
 import Tool from "@/models/Tool";
+import { buildSiteMetadata } from "@/lib/site-settings";
 
-export const metadata: Metadata = {
-  title: 'Premium Tools - Uddokta Tools',
-  description: 'Professional SEO software at unbeatable prices.',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return buildSiteMetadata('Premium Tools');
+}
 
 export const dynamic = 'force-dynamic';
 
