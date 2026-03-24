@@ -6,7 +6,8 @@
   "permissions": [
     "tabs",
     "scripting",
-    "cookies"
+    "cookies",
+    "browsingData"
   ],
   "host_permissions": [
     "<all_urls>"

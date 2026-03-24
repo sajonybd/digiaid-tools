@@ -6,6 +6,13 @@ function getOrigin(url) {
   }
 }
 
+function getHostCandidates(hostname) {
+  const parts = hostname.split(".");
+  const baseDomain = parts.length >= 2 ? parts.slice(-2).join(".") : hostname;
+  // Include exact host and base host variants; cookies/localStorage may live on any of these.
+  return [...new Set([hostname, baseDomain, `www.${baseDomain}`])];
+}
+
 function getDomainCandidates(hostname) {
   const parts = hostname.split(".");
   const baseDomain = parts.length >= 2 ? parts.slice(-2).join(".") : hostname;
@@ -37,6 +44,28 @@ function waitForTabComplete(tabId, timeoutMs = 15000) {
 
     chrome.tabs.onUpdated.addListener(listener);
   });
+}
+
+async function clearSiteDataForTarget(targetUrl) {
+  const url = new URL(targetUrl);
+  const hosts = getHostCandidates(url.hostname);
+  const origins = [];
+  for (const host of hosts) {
+    origins.push(`https://${host}`);
+    origins.push(`http://${host}`);
+  }
+
+  // Clear best-effort via browsingData. This avoids waiting for slow sites to fully load.
+  await chrome.browsingData.remove(
+    { origins },
+    {
+      cookies: true,
+      localStorage: true,
+      indexedDB: true,
+      cacheStorage: true,
+      serviceWorkers: true,
+    }
+  );
 }
 
 async function setCookies(targetUrl, cookieData) {
@@ -279,14 +308,29 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         throw new Error("Invalid target URL");
       }
 
+      // Clear existing site data without relying on a fully loaded tab.
+      try {
+        await clearSiteDataForTarget(targetUrl);
+      } catch {
+        // Fallback: cookies at least.
+        await clearCookiesForTarget(targetUrl);
+      }
+
+      // Cookies-only flow: avoid waiting for tab "complete" (slow sites can exceed 15s).
+      if (loginMethod === "cookies") {
+        await setCookies(targetUrl, loginData);
+        await chrome.tabs.create({ url: targetUrl, active: true });
+        sendResponse({ ok: true });
+        return;
+      }
+
       const newTab = await chrome.tabs.create({ url: targetUrl, active: true });
       if (!newTab?.id) {
         throw new Error("Failed to create target tab");
       }
 
-      await waitForTabComplete(newTab.id);
-      await clearCookiesForTarget(targetUrl);
-      await clearWebStorageAndIndexedDB(newTab.id);
+      // For localStorage/IndexedDB injection we still prefer a loaded document, but allow more time.
+      await waitForTabComplete(newTab.id, 60000);
 
       if (loginMethod === "cookies") {
         await setCookies(targetUrl, loginData);
