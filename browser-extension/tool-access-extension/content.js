@@ -2,11 +2,16 @@
   if (window.__SEO_TOOL_ACCESS_BRIDGE_INSTALLED__) return;
   window.__SEO_TOOL_ACCESS_BRIDGE_INSTALLED__ = true;
 
+  // Announce presence so the page can detect the extension without guessing.
+  try {
+    window.postMessage({ type: "SEO_TOOL_EXTENSION_READY" }, "*");
+  } catch {}
+
   window.addEventListener("message", async (event) => {
     if (event.source !== window || !event.data) return;
 
     if (event.data.type === "SEO_TOOL_EXTENSION_PING") {
-      window.postMessage({ type: "SEO_TOOL_EXTENSION_READY" }, "*");
+      window.postMessage({ type: "SEO_TOOL_EXTENSION_READY", requestId: event.data.requestId }, "*");
       return;
     }
 
@@ -16,6 +21,9 @@
     const payload = event.data.payload;
 
     try {
+      // Let the page know the content script received the request.
+      window.postMessage({ type: "SEO_TOOL_ACCESS_ACK", requestId }, "*");
+
       const response = await chrome.runtime.sendMessage({
         type: "APPLY_TOOL_ACCESS",
         requestId,
