@@ -3,74 +3,79 @@ import mongoose from 'mongoose';
 const SettingSchema = new mongoose.Schema({
   siteName: {
     type: String,
-    default: 'Uddokta Tools',
+    default: "SEO Tools",
   },
   siteTagline: {
     type: String,
-    default: 'Making premium SEO tools accessible to everyone',
+    default: "Making premium SEO tools accessible to everyone",
   },
   logoUrl: {
     type: String,
-    default: '/logo.png',
+    default: "/logo.png",
   },
   faviconUrl: {
     type: String,
-    default: '/favicon.ico',
+    default: "/favicon.ico",
   },
   footerText: {
     type: String,
-    default: '',
+    default: "",
   },
   seoTitle: {
     type: String,
-    default: 'Uddokta Tools - Premium SEO Tools',
+    default: "SEO Tools - Premium SEO Tools",
   },
   seoDescription: {
     type: String,
-    default: 'Get access to premium SEO tools at affordable prices',
+    default: "Get access to premium SEO tools at affordable prices",
   },
   supportEmail: {
     type: String,
-    default: '',
+    default: "",
   },
   supportPhone: {
     type: String,
-    default: '01940268500',
+    default: "01940268500",
   },
   whatsappNumber: {
     type: String,
-    default: '8801940268500',
+    default: "8801940268500",
   },
   facebookChatUrl: {
     type: String,
-    default: 'https://m.me/PremiumSEOTools?text=Hello%20I%20have%20a%20question',
+    default:
+      "https://m.me/PremiumSEOTools?text=Hello%20I%20have%20a%20question",
   },
   whatsappMessage: {
     type: String,
-    default: 'Hello! I need some support.',
+    default: "Hello! I need some support.",
+  },
+  extensionDownloadUrl: {
+    type: String,
+    default: "",
   },
   // Google Analytics & Tag Manager
   gtmId: {
     type: String,
-    default: '',
+    default: "",
   },
   ga4MeasurementId: {
     type: String,
-    default: '',
+    default: "",
   },
   // Meta / Facebook Pixel & CAPI
   facebookPixelId: {
     type: String,
-    default: '',
+    default: "",
   },
   facebookCapiToken: {
     type: String,
-    default: '',
+    default: "",
   },
   // Microsoft Clarity
   microsoftClarityId: {
     type: String,
-    default: '',
+    default: "",
   },
   updatedAt: {
     type: Date,
@@ -82,18 +87,29 @@ if (mongoose.models.Setting) {
   const schema = mongoose.models.Setting.schema;
   if (!schema.path('siteName')) {
     schema.add({
-      siteName: { type: String, default: 'Uddokta Tools' },
-      siteTagline: { type: String, default: 'Making premium SEO tools accessible to everyone' },
-      logoUrl: { type: String, default: '/logo.png' },
-      faviconUrl: { type: String, default: '/favicon.ico' },
-      footerText: { type: String, default: '' },
-      seoTitle: { type: String, default: 'Uddokta Tools - Premium SEO Tools' },
-      seoDescription: { type: String, default: 'Get access to premium SEO tools at affordable prices' },
-      supportEmail: { type: String, default: '' },
-      supportPhone: { type: String, default: '01940268500' },
-      whatsappNumber: { type: String, default: '8801940268500' },
-      facebookChatUrl: { type: String, default: 'https://m.me/PremiumSEOTools?text=Hello%20I%20have%20a%20question' },
-      whatsappMessage: { type: String, default: 'Hello! I need some support.' },
+      siteName: { type: String, default: "SEO Tools" },
+      siteTagline: {
+        type: String,
+        default: "Making premium SEO tools accessible to everyone",
+      },
+      logoUrl: { type: String, default: "/logo.png" },
+      faviconUrl: { type: String, default: "/favicon.ico" },
+      footerText: { type: String, default: "" },
+      seoTitle: { type: String, default: "SEO Tools - Premium SEO Tools" },
+      seoDescription: {
+        type: String,
+        default: "Get access to premium SEO tools at affordable prices",
+      },
+      supportEmail: { type: String, default: "" },
+      supportPhone: { type: String, default: "01940268500" },
+      whatsappNumber: { type: String, default: "8801940268500" },
+      facebookChatUrl: {
+        type: String,
+        default:
+          "https://m.me/PremiumSEOTools?text=Hello%20I%20have%20a%20question",
+      },
+      whatsappMessage: { type: String, default: "Hello! I need some support." },
+      extensionDownloadUrl: { type: String, default: "" },
     });
   }
 }

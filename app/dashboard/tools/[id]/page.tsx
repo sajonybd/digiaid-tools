@@ -120,8 +120,8 @@ export default async function ToolAccessPage(props: ToolAccessPageProps) {
                       <div className="flex items-start gap-2 text-xs text-muted-foreground bg-background/50 p-2 rounded">
                           <Info className="h-4 w-4 mt-0.5" />
                           <p>
-                              {tool.loginMethod && tool.loginMethod !== "none"
-                                ? "This tool uses extension-based auto-login. Make sure the browser extension is installed and enabled."
+                              {tool.loginMethod && tool.loginMethod !== "none" && tool.loginMethod !== "cloud"
+                                ? "This tool uses extension-based auto-login. If you do not have the extension installed, use the Download Extension button."
                                 : "If the tool does not open, please try again or contact support."}
                           </p>
                       </div>
@@ -178,7 +178,9 @@ export default async function ToolAccessPage(props: ToolAccessPageProps) {
                            <span className="text-muted-foreground">Access Type</span>
                            <span className="font-medium">
                             {tool.loginMethod && tool.loginMethod !== "none"
-                              ? `Extension (${tool.loginMethod})`
+                              ? tool.loginMethod === "cloud"
+                                ? "Cloud"
+                                : `Extension (${tool.loginMethod})`
                               : "Direct Link"}
                            </span>
                         </div>

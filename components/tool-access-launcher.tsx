@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 interface ToolAccessLauncherProps {
   toolId: string;
@@ -10,12 +11,13 @@ interface ToolAccessLauncherProps {
 
 type AccessResponse = {
   targetUrl: string;
-  loginMethod: "none" | "cookies" | "localstorage" | "indexeddb";
+  loginMethod: "none" | "cookies" | "localstorage" | "indexeddb" | "cloud";
   loginData: any;
 };
 
 export function ToolAccessLauncher({ toolId, toolName }: ToolAccessLauncherProps) {
   const [loading, setLoading] = useState(false);
+  const [needsExtension, setNeedsExtension] = useState(false);
 
   const EXTENSION_READY_TIMEOUT_MS = 2500;
   const EXTENSION_RESULT_TIMEOUT_MS = 30000;
@@ -65,16 +67,14 @@ export function ToolAccessLauncher({ toolId, toolName }: ToolAccessLauncherProps
         throw new Error("Tool target URL is not configured.");
       }
 
-      if (!access.loginMethod || access.loginMethod === "none") {
+      if (!access.loginMethod || access.loginMethod === "none" || access.loginMethod === "cloud") {
         window.open(access.targetUrl, "_blank", "noopener,noreferrer");
         return;
       }
 
       const ready = await waitForExtensionReady(EXTENSION_READY_TIMEOUT_MS);
       if (!ready) {
-        alert(
-          "Browser extension not detected. Ensure the 'DigiAid Extension' is installed, enabled, and has site access for this domain (All sites or this site), then refresh the dashboard page."
-        );
+        setNeedsExtension(true);
         return;
       }
 
@@ -137,6 +137,7 @@ export function ToolAccessLauncher({ toolId, toolName }: ToolAccessLauncherProps
           extensionResult.error ||
             "Failed to apply login data. Please install/enable the extension and try again."
         );
+        setNeedsExtension(true);
       }
     } catch (error: any) {
       alert(error?.message || "Failed to launch tool");
@@ -146,8 +147,16 @@ export function ToolAccessLauncher({ toolId, toolName }: ToolAccessLauncherProps
   }
 
   return (
-    <Button className="w-full h-12 text-lg" disabled={loading} onClick={handleLaunch}>
-      {loading ? "Launching..." : `Launch ${toolName}`}
-    </Button>
+    <div className="space-y-3">
+      <Button className="w-full h-12 text-lg" disabled={loading} onClick={handleLaunch}>
+        {loading ? "Launching..." : `Launch ${toolName}`}
+      </Button>
+
+      {needsExtension && (
+        <Button className="w-full" variant="outline" asChild>
+          <Link href="/download/extension">Download Extension</Link>
+        </Button>
+      )}
+    </div>
   );
 }

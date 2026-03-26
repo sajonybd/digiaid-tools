@@ -55,7 +55,7 @@ export default function NewToolPage() {
         delete data.linkedPage;
     }
 
-    if (loginMethod !== "none") {
+    if (loginMethod === "cookies" || loginMethod === "localstorage" || loginMethod === "indexeddb") {
       if (!loginDataText.trim()) {
         alert("Please paste JSON login data for the selected login method.");
         setLoading(false);
@@ -71,7 +71,10 @@ export default function NewToolPage() {
     }
 
     (data as any).loginMethod = loginMethod;
-    (data as any).loginData = loginMethod === "none" ? null : JSON.parse(loginDataText);
+    (data as any).loginData =
+      loginMethod === "cookies" || loginMethod === "localstorage" || loginMethod === "indexeddb"
+        ? JSON.parse(loginDataText)
+        : null;
 
     try {
       const res = await fetch("/api/tools", {
@@ -212,11 +215,12 @@ export default function NewToolPage() {
               <SelectItem value="cookies">Cookies</SelectItem>
               <SelectItem value="localstorage">LocalStorage</SelectItem>
               <SelectItem value="indexeddb">IndexedDB</SelectItem>
+              <SelectItem value="cloud">Cloud</SelectItem>
             </SelectContent>
           </Select>
         </div>
 
-        {loginMethod !== "none" && (
+        {(loginMethod === "cookies" || loginMethod === "localstorage" || loginMethod === "indexeddb") && (
           <div className="space-y-2">
             <Label htmlFor="loginData">Login Data JSON</Label>
             <Textarea

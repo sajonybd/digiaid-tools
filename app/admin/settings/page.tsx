@@ -26,6 +26,7 @@ export default function SettingsPage() {
     whatsappNumber: "",
     facebookChatUrl: "",
     whatsappMessage: "",
+    extensionDownloadUrl: "",
     gtmId: "",
     ga4MeasurementId: "",
     facebookPixelId: "",
@@ -57,6 +58,7 @@ export default function SettingsPage() {
             whatsappNumber: data.whatsappNumber || "",
             facebookChatUrl: data.facebookChatUrl || "",
             whatsappMessage: data.whatsappMessage || "",
+            extensionDownloadUrl: data.extensionDownloadUrl || "",
             gtmId: data.gtmId || "",
             ga4MeasurementId: data.ga4MeasurementId || "",
             facebookPixelId: data.facebookPixelId || "",
@@ -181,6 +183,11 @@ export default function SettingsPage() {
               <div className="space-y-2">
                 <Label htmlFor="facebookChatUrl">Facebook Chat URL</Label>
                 <Input id="facebookChatUrl" placeholder="https://m.me/your-page" value={settings.facebookChatUrl} onChange={handleChange} />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="extensionDownloadUrl">Extension Download URL (Restricted)</Label>
+                <Input id="extensionDownloadUrl" placeholder="https://chromewebstore.google.com/..." value={settings.extensionDownloadUrl} onChange={handleChange} />
+                <p className="text-xs text-muted-foreground">Used by /download/extension. Only active subscribers can access the redirect.</p>
               </div>
             </CardContent>
           </Card>

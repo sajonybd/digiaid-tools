@@ -20,7 +20,7 @@ const ToolSchema = new mongoose.Schema({
   },
   loginMethod: {
     type: String,
-    enum: ['none', 'cookies', 'localstorage', 'indexeddb'],
+    enum: ['none', 'cookies', 'localstorage', 'indexeddb', 'cloud'],
     default: 'none',
   },
   loginData: {
@@ -91,7 +91,7 @@ if (mongoose.models.Tool) {
     }
     if (!schema.path('loginMethod')) {
         schema.add({
-            loginMethod: { type: String, enum: ['none', 'cookies', 'localstorage', 'indexeddb'], default: 'none' },
+            loginMethod: { type: String, enum: ['none', 'cookies', 'localstorage', 'indexeddb', 'cloud'], default: 'none' },
             loginData: { type: mongoose.Schema.Types.Mixed, default: null }
         });
     }
