@@ -9,6 +9,8 @@
 
 # production
 /build
+/browser-extension
+
 
 # debug
 npm-debug.log*

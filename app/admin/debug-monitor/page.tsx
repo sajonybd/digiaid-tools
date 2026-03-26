@@ -10,7 +10,7 @@ export default async function DebugPage() {
     await dbConnect();
     
     // Raw Mongo Query
-    const rawTools = await mongoose.connection.db.collection('tools').find({}).toArray();
+    const rawTools = await mongoose.connection.db!.collection('tools').find({}).toArray();
     
     // Mongoose Query
     const mongooseTools = await Tool.find({});

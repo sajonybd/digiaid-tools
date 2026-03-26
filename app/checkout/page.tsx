@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { useCart } from "@/components/providers/cart-provider";
@@ -22,12 +22,24 @@ import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { PriceDisplay } from "@/components/price-display";
+import { trackEvent } from "@/lib/tracking";
 
 export default function CheckoutPage() {
   const { items, removeFromCart, cartTotal, discountAmount, finalTotal, clearCart, coupon, updateDuration } = useCart();
   const { data: session } = useSession();
   const router = useRouter();
   
+  useEffect(() => {
+    if (items.length > 0) {
+      trackEvent('begin_checkout', {
+        value: finalTotal,
+        currency: 'USD',
+        items: items.map(item => ({ item_id: item._id, item_name: item.name, price: item.price }))
+      });
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Only fire on mount when user enters checkout
+
   const [loading, setLoading] = useState(false);
   const [paymentProof, setPaymentProof] = useState("");
   const [couponCode, setCouponCode] = useState("");

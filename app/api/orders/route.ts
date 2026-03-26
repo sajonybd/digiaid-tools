@@ -7,6 +7,8 @@ import Coupon from "@/models/Coupon";
 import Subscription from "@/models/Subscription";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
+import Setting from "@/models/Setting";
+import { sendCapiEvent } from "@/lib/capi";
 
 export async function GET(req: Request) {
   await dbConnect();
@@ -176,6 +178,33 @@ export async function POST(req: Request) {
                 });
             }
         }
+    }
+
+    // 6. Server-Side CAPI Tracking (Purchase)
+    try {
+        const setting = await Setting.findOne({});
+        if (setting && setting.facebookPixelId && setting.facebookCapiToken) {
+            await sendCapiEvent(
+                "Purchase",
+                setting.facebookPixelId,
+                setting.facebookCapiToken,
+                {
+                    email: user.email,
+                    userId: user.id || user._id,
+                    clientIp: req.headers.get("x-forwarded-for") || undefined,
+                    userAgent: req.headers.get("user-agent") || undefined
+                },
+                {
+                    value: finalAmount,
+                    currency: "USD",
+                    content_ids: finalItems.map(i => i.package.toString()),
+                    content_type: "product",
+                    order_id: order._id.toString()
+                }
+            );
+        }
+    } catch (e) {
+        console.error("CAPI Tracking Error:", e);
     }
 
     return NextResponse.json({ success: true, orderId: order._id, status }, { status: 201 });

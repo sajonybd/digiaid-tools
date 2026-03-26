@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { toast } from "sonner";
+import { trackEvent } from "@/lib/tracking";
 
 interface CartItem {
   _id: string; // Package ID
@@ -59,6 +60,16 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   }, [items]);
 
   const addToCart = (item: CartItem, openDrawer: boolean = true) => {
+    trackEvent('add_to_cart', {
+      value: item.price,
+      currency: 'USD',
+      items: [{
+        item_id: item._id,
+        item_name: item.name,
+        price: item.price
+      }]
+    });
+
     const existingIndex = items.findIndex((i) => i._id === item._id);
     
     if (existingIndex > -1) {

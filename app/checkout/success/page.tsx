@@ -10,6 +10,7 @@ import { CheckCircle2, Clock, Package, ArrowRight, Home, CreditCard, AlertCircle
 import { PriceDisplay } from "@/components/price-display";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
+import { trackEvent } from "@/lib/tracking";
 
 function SuccessContent() {
   const searchParams = useSearchParams();
@@ -32,6 +33,21 @@ function SuccessContent() {
         if (!res.ok) throw new Error("Failed to fetch order details");
         const data = await res.json();
         setOrder(data);
+        
+        // Track Purchase Event
+        if (data && data._id) {
+          trackEvent('purchase', {
+             transaction_id: data._id,
+             value: data.finalAmount,
+             currency: 'USD',
+             items: data.items.map((item: any) => ({
+                item_id: item.package, // Package ID
+                item_name: item.name,
+                price: item.price,
+                quantity: item.durationMonths || 1
+             }))
+          });
+        }
       } catch (err: any) {
         setError(err.message);
       } finally {
