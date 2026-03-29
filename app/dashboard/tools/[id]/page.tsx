@@ -4,7 +4,7 @@ import { ArrowLeft, ExternalLink, Info, AlertTriangle, Lock } from "lucide-react
 import Link from "next/link";
 import dbConnect from "@/lib/mongodb";
 import Tool from "@/models/Tool";
-import User from "@/models/User";
+import Subscription from "@/models/Subscription";
 import { notFound, redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
@@ -44,25 +44,32 @@ export default async function ToolAccessPage(props: ToolAccessPageProps) {
   if (user.role === 'admin') {
       hasAccess = true;
   } else {
-      const dbUser = await User.findById(user.id).populate({
-          path: 'subscriptions.packageId',
-          populate: { path: 'tools' }
+      const subs = await Subscription.find({
+        user: user.id || user._id,
+        status: "active",
+        endDate: { $gt: new Date() },
+      }).populate({
+        path: "packageId",
+        strictPopulate: false,
+        populate: {
+          path: "tools",
+          strictPopulate: false,
+        },
       });
-      
-      if (dbUser) {
-           const activeSubs = dbUser.subscriptions.filter((sub: any) => 
-               sub.status === 'active' && new Date(sub.endDate) > new Date()
-           );
-           
-           for (const sub of activeSubs) {
-               if (sub.packageId && sub.packageId.tools) {
-                   if (sub.packageId.tools.some((t: any) => t._id.toString() === id)) {
-                       hasAccess = true;
-                       break;
-                   }
-               }
-           }
-      }
+
+      hasAccess = subs.some((sub: any) => {
+        if (!sub.packageId) return false;
+
+        if (sub.itemType === "Tool") {
+          return sub.packageId._id?.toString() === id || sub.packageId.toString() === id;
+        }
+
+        if (sub.itemType === "Package" && sub.packageId.tools) {
+          return sub.packageId.tools.some((t: any) => t._id?.toString() === id || t.toString() === id);
+        }
+
+        return false;
+      });
   }
 
   if (!hasAccess) {
