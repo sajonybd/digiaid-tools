@@ -33,13 +33,7 @@ const tools = [
     description: "Industry-standard tools for design and video editing",
     category: "Design",
     price: 8,
-  },
-  {
-    name: "Ahrefs",
-    description: "All-in-one SEO toolset for backlink analysis",
-    category: "SEO",
-    price: 6,
-  },
+  }
 ]
 
 export function ToolsShowcase() {
