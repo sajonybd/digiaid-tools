@@ -1,10 +1,7 @@
 import { Metadata } from 'next';
-import { ProductCard } from "@/components/product-card";
-import { Navbar } from "@/components/navbar";
-import { Footer } from "@/components/footer";
-import dbConnect from "@/lib/mongodb";
-import Tool from "@/models/Tool";
 import { buildSiteMetadata } from "@/lib/site-settings";
+import { getStorefrontProducts } from "@/lib/storefront";
+import { StorefrontClient } from "@/components/storefront/storefront-client";
 
 export async function generateMetadata(): Promise<Metadata> {
   return buildSiteMetadata('Premium Tools');
@@ -13,43 +10,9 @@ export async function generateMetadata(): Promise<Metadata> {
 export const dynamic = 'force-dynamic';
 
 export default async function PremiumToolsPage() {
-  await dbConnect();
-  console.log(Tool);
-
-  const tools = await Tool.find({ 
-      status: 'active', 
-      visibility: 'public',
-      price: { $gt: 0 } 
-  }).sort({ createdAt: -1 });
+  const tools = await getStorefrontProducts();
 
   return (
-    <main className="min-h-screen bg-background">
-      <Navbar />
-      <div className="pt-32 pb-16 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-12">
-                <h1 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary mb-4">
-                    Premium Tools
-                </h1>
-                <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                    Get access to industry-leading software starting at just $2/month.
-                </p>
-            </div>
-
-            {tools.length === 0 ? (
-                 <div className="text-center py-20 bg-muted/30 rounded-lg">
-                     <p className="text-muted-foreground">No premium tools available at the moment.</p>
-                 </div>
-            ) : (
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {tools.map((tool) => (
-                        <ProductCard key={tool._id.toString()} pkg={JSON.parse(JSON.stringify(tool))} />
-                    ))}
-                </div>
-            )}
-        </div>
-      </div>
-      <Footer />
-    </main>
+    <StorefrontClient products={tools} mode="catalog" />
   );
 }

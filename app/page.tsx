@@ -1,21 +1,12 @@
-import { Hero } from "@/components/sections/hero"
-import { ToolsShowcase } from "@/components/sections/tools-showcase"
-import { PricingSection } from "@/components/sections/pricing-section"
-import { FeaturesSection } from "@/components/sections/features-section"
-import { Navbar } from "@/components/navbar"
-import { Footer } from "@/components/footer"
-import { CTASection } from "@/components/sections/cta-section"
+import { StorefrontClient } from "@/components/storefront/storefront-client";
+import { getStorefrontProducts } from "@/lib/storefront";
 
-export default function Home() {
+export const dynamic = "force-dynamic";
+
+export default async function Home() {
+  const products = await getStorefrontProducts();
+
   return (
-    <main>
-      <Navbar />
-      <Hero />
-      <ToolsShowcase />
-      <PricingSection />
-      <FeaturesSection />
-      <CTASection />
-      <Footer />
-    </main>
-  )
+    <StorefrontClient products={products} mode="home" />
+  );
 }
