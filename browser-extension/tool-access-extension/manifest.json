@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "DigiAid Extension",
+  "name": "Group Buy Tools Extension",
   "description": "Applies cookies/localStorage/IndexedDB from dashboard access payloads before opening tool URLs.",
   "version": "1.0.0",
   "permissions": [
@@ -27,7 +27,7 @@
     }
   ],
     "action": {
-    "default_title": "DigiAid Extension",
+    "default_title": "Group Buy Tools Extension",
     "default_icon": {
       "16": "icons/16x16.png",
       "32": "icons/32x32.png",
