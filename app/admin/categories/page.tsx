@@ -132,11 +132,11 @@ export default function AdminCategoriesPage() {
               <div className="grid gap-4 py-4">
                 <div className="space-y-2">
                   <Label htmlFor="name">Name</Label>
-                  <Input id="name" name="name" defaultValue={editingCategory?.name} placeholder="e.g. SEO Tools" required />
+                  <Input id="name" name="name" defaultValue={editingCategory?.name} placeholder="e.g. Digital Tools" required />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="slug">Slug (Optional)</Label>
-                  <Input id="slug" name="slug" defaultValue={editingCategory?.slug} placeholder="e.g. seo-tools" />
+                  <Input id="slug" name="slug" defaultValue={editingCategory?.slug} placeholder="e.g. digital-tools" />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="order">Display Order</Label>

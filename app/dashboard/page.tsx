@@ -110,7 +110,7 @@ export default function DashboardPage() {
   */
 
   const announcements = [
-    { id: 1, title: "New SEO Tools Added", date: "2024-03-20" },
+    { id: 1, title: "New Digital Tools Added", date: "2024-03-20" },
     { id: 2, title: "System Maintenance Scheduled", date: "2024-03-25" },
   ];
   // Helper to map category to icon

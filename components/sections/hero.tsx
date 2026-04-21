@@ -17,7 +17,7 @@ export function Hero() {
               </span>
             </div>
             <h1 className="text-5xl md:text-7xl font-bold text-foreground mb-6 text-balance leading-tight">
-              Professional <span className="gradient-text">SEO Tools</span> for Everyone
+              Professional <span className="gradient-text">Digital Tools</span> for Everyone
             </h1>
             <p className="text-foreground/70 text-xl mb-10 text-balance leading-relaxed max-w-lg">
               Get access to premium SEO software, AI tools, and design apps at a fraction of the cost. Everything you

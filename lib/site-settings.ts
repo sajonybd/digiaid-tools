@@ -15,6 +15,9 @@ export type PublicSiteSettings = {
   whatsappNumber: string;
   facebookChatUrl: string;
   whatsappMessage: string;
+  websiteUrl: string;
+  contactAddress: string;
+  affiliateUrl: string;
   gtmId: string;
   ga4MeasurementId: string;
   facebookPixelId: string;
@@ -22,18 +25,21 @@ export type PublicSiteSettings = {
 };
 
 export const defaultSiteSettings: PublicSiteSettings = {
-  siteName: "Uddokta Tools",
-  siteTagline: "Making premium SEO tools accessible to everyone",
+  siteName: "Digital Tools by DigiAid",
+  siteTagline: "Trusted Premium digital tools by DigiAid",
   logoUrl: "/logo.png",
   faviconUrl: "/favicon.ico",
   footerText: "",
-  seoTitle: "Uddokta Tools - Premium SEO Tools",
-  seoDescription: "Get access to premium SEO tools at affordable prices",
-  supportEmail: "",
-  supportPhone: "01940268500",
-  whatsappNumber: "8801940268500",
-  facebookChatUrl: "https://m.me/PremiumSEOTools?text=Hello%20I%20have%20a%20question",
-  whatsappMessage: "Hello! I need some support.",
+  seoTitle: "Digital Tools by DigiAid - Trusted Premium Digital Tools",
+  seoDescription: "Shop trusted premium digital tools with hands-on support from DigiAid.",
+  supportEmail: "info@digiaidit.com",
+  supportPhone: "01316-414532",
+  whatsappNumber: "8801316414532",
+  facebookChatUrl: "https://www.facebook.com/profile.php?id=61588189935634",
+  whatsappMessage: "Hello! I need support with Digital Tools by DigiAid.",
+  websiteUrl: "https://digiaidit.com",
+  contactAddress: "Dhaka, Dhaka, Bangladesh, 1219",
+  affiliateUrl: "/affiliate-program",
   gtmId: "",
   ga4MeasurementId: "",
   facebookPixelId: "",

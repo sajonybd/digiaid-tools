@@ -204,6 +204,17 @@ export default function NewToolPage() {
           <Textarea id="description" name="description" placeholder="Brief description..." required />
         </div>
 
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <div className="space-y-2">
+            <Label htmlFor="icon">Product Icon URL</Label>
+            <Input id="icon" name="icon" placeholder="https://... or /icon.png" />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="image">Product Image URL</Label>
+            <Input id="image" name="image" placeholder="https://... or /image.png" />
+          </div>
+        </div>
+
         <div className="space-y-2">
           <Label htmlFor="loginMethod">Login Method</Label>
           <Select name="loginMethod" value={loginMethod} onValueChange={setLoginMethod}>

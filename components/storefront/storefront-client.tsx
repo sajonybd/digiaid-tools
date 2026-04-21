@@ -309,13 +309,16 @@ function StorefrontHeader() {
 
         <nav className="hidden items-center gap-6 text-sm font-medium lg:flex">
           <Link href="/premium-tools" className="transition-colors hover:text-primary">
-            Products
+            All Products
           </Link>
-          <a href="/#shop" className="transition-colors hover:text-primary">
-            Shop
-          </a>
           <Link href="/packages" className="transition-colors hover:text-primary">
-            Packages
+            Shop
+          </Link>
+          <Link href="/about-us" className="transition-colors hover:text-primary">
+            About Us
+          </Link>
+          <Link href={siteSettings.affiliateUrl || "/affiliate-program"} className="transition-colors hover:text-primary">
+            Become an Affiliate
           </Link>
         </nav>
 
@@ -324,7 +327,7 @@ function StorefrontHeader() {
             <Search className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <input
               type="search"
-              placeholder="Search SEO tools..."
+              placeholder="Search digital tools..."
               className="h-10 w-full rounded-xl border border-input bg-muted/60 pl-10 pr-4 text-sm outline-none transition-all placeholder:text-muted-foreground focus:border-primary focus:bg-background"
             />
           </div>
@@ -367,13 +370,16 @@ function StorefrontHeader() {
       >
         <nav className="mx-auto flex w-full max-w-7xl flex-col gap-1 px-4 py-4 text-sm font-medium sm:px-6">
           <Link href="/premium-tools" className="rounded-lg px-2 py-2.5 hover:bg-muted">
-            Products
+            All Products
           </Link>
-          <a href="/#shop" className="rounded-lg px-2 py-2.5 hover:bg-muted">
-            Shop
-          </a>
           <Link href="/packages" className="rounded-lg px-2 py-2.5 hover:bg-muted">
-            Packages
+            Shop
+          </Link>
+          <Link href="/about-us" className="rounded-lg px-2 py-2.5 hover:bg-muted">
+            About Us
+          </Link>
+          <Link href={siteSettings.affiliateUrl || "/affiliate-program"} className="rounded-lg px-2 py-2.5 hover:bg-muted">
+            Become an Affiliate
           </Link>
           <Link href={session ? "/dashboard" : "/login"} className="rounded-lg px-2 py-2.5 hover:bg-muted">
             {session ? "Client Area" : "Login"}
@@ -410,8 +416,9 @@ function StorefrontFooter() {
             <h4 className="mb-4 text-sm font-bold">Quick Links</h4>
             <ul className="space-y-2.5 text-sm text-muted-foreground">
               <li><Link href="/premium-tools" className="hover:text-primary">All Products</Link></li>
-              <li><Link href="/packages" className="hover:text-primary">Packages</Link></li>
-              <li><Link href="/dashboard" className="hover:text-primary">Client Area</Link></li>
+              <li><Link href="/packages" className="hover:text-primary">All Products Shop</Link></li>
+              <li><Link href="/about-us" className="hover:text-primary">About Us</Link></li>
+              <li><Link href={siteSettings.affiliateUrl || "/affiliate-program"} className="hover:text-primary">Become an Affiliate</Link></li>
             </ul>
           </div>
 
@@ -421,17 +428,18 @@ function StorefrontFooter() {
               <li><a href={`mailto:${siteSettings.supportEmail || "support@example.com"}`} className="hover:text-primary">Email Support</a></li>
               <li><a href={siteSettings.facebookChatUrl || "#"} className="hover:text-primary">Messenger</a></li>
               <li><a href={`https://wa.me/${siteSettings.whatsappNumber}`} className="hover:text-primary">WhatsApp</a></li>
+              <li><Link href="/get-support" className="hover:text-primary">How to Get Support</Link></li>
             </ul>
           </div>
 
           <div>
             <h4 className="mb-4 text-sm font-bold">Payments</h4>
-            <div className="flex flex-wrap gap-2 text-xs font-semibold text-muted-foreground">
-              <span className="rounded bg-muted px-2 py-1">bKash</span>
-              <span className="rounded bg-muted px-2 py-1">Rocket</span>
-              <span className="rounded bg-muted px-2 py-1">Nagad</span>
-              <span className="rounded bg-muted px-2 py-1">Bank</span>
-            </div>
+            <ul className="space-y-2.5 text-sm text-muted-foreground">
+              <li><Link href="/refund-policy" className="hover:text-primary">Refund Policy</Link></li>
+              <li><Link href="/return-policy" className="hover:text-primary">Return Policy</Link></li>
+              <li><Link href="/privacy-policy" className="hover:text-primary">Privacy Policy</Link></li>
+              <li><Link href="/terms-and-conditions" className="hover:text-primary">Terms & Conditions</Link></li>
+            </ul>
           </div>
         </div>
 
@@ -440,7 +448,7 @@ function StorefrontFooter() {
             {siteSettings.footerText}
           </p>
           <div className="text-xs text-muted-foreground">
-            Built for premium SEO tool sales and managed onboarding.
+            {siteSettings.contactAddress}
           </div>
         </div>
       </div>
@@ -461,31 +469,31 @@ function HeroSection({ products }: { products: StorefrontProduct[] }) {
         <div>
           <span className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1.5 text-xs font-semibold text-primary">
             <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-primary" />
-            Premium SEO tools with faster delivery and hands-on support
+            {siteSettings.siteTagline}
           </span>
 
           <h1 className="mt-5 text-4xl font-extrabold leading-[1.05] tracking-tight text-foreground sm:text-5xl lg:text-6xl">
             {siteSettings.siteName}
             <br />
             <span className="bg-gradient-to-r from-primary via-orange-500 to-amber-500 bg-clip-text text-transparent">
-              built like a real storefront.
+              trusted premium digital tools.
             </span>
           </h1>
 
           <p className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-            Launch vetted SEO and digital tool offers with clearer pricing, stronger trust signals,
-            and a catalog layout that feels closer to a polished e-commerce experience than a plain software list.
+            Shop curated digital tools from DigiAid with clearer pricing, stronger trust signals,
+            guided buying steps, and support that stays available after checkout.
           </p>
 
           <div className="mt-8 flex flex-wrap gap-3">
             <Button asChild size="lg" className="rounded-xl px-6">
               <Link href="/premium-tools">
-                Explore All Tools
+                Explore All Products
                 <ArrowRight className="h-5 w-5" />
               </Link>
             </Button>
             <Button asChild variant="outline" size="lg" className="rounded-xl px-6">
-              <a href="#deals">View Hot Deals</a>
+              <Link href="/how-to-buy">How to Buy</Link>
             </Button>
           </div>
 
@@ -747,7 +755,7 @@ function FaqSection() {
             Answers that help customers buy with confidence
           </h2>
           <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base">
-            Trust, delivery speed, and support expectations matter on this kind of site. This section handles those objections early.
+            Customers usually want to know delivery speed, support options, and purchase terms before they pay. This section answers those questions early.
           </p>
 
           <div className="mt-8 rounded-3xl border border-border bg-background p-5 shadow-sm">
@@ -758,7 +766,7 @@ function FaqSection() {
               <div>
                 <p className="font-semibold text-foreground">Need help before ordering?</p>
                 <p className="mt-1 text-sm text-muted-foreground">
-                  Add WhatsApp, Messenger, or direct support contact details here for an even more service-led buying experience.
+                  Contact DigiAid directly on WhatsApp, Messenger, phone, or email before you place your order.
                 </p>
               </div>
             </div>
@@ -794,10 +802,10 @@ function CtaSection() {
         <div className="relative grid items-center gap-8 lg:grid-cols-[1.5fr_1fr]">
           <div>
             <h2 className="text-3xl font-extrabold leading-tight sm:text-4xl lg:text-5xl">
-              Ready to turn {siteSettings.siteName} into a cleaner premium-tool storefront?
+              Ready to shop trusted premium digital tools with DigiAid?
             </h2>
             <p className="mt-4 max-w-xl text-white/70">
-              Use this builder-inspired layout for high-intent buyers, stronger trust signals, and a more polished catalog flow.
+              Browse products, review the must-read terms, and contact support anytime if you need help choosing the right package.
             </p>
           </div>
           <div className="flex flex-col gap-3 sm:flex-row lg:items-end lg:justify-end">
@@ -812,7 +820,7 @@ function CtaSection() {
               variant="outline"
               className="rounded-xl border-white/20 bg-white/10 px-6 text-white hover:bg-white/15 hover:text-white"
             >
-              <Link href="/packages">View Packages</Link>
+              <Link href="/terms-and-conditions">Must Read Before Purchase</Link>
             </Button>
           </div>
         </div>

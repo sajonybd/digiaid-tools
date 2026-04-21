@@ -3,11 +3,11 @@ import mongoose from 'mongoose';
 const SettingSchema = new mongoose.Schema({
   siteName: {
     type: String,
-    default: "SEO Tools",
+    default: "Digital Tools by DigiAid",
   },
   siteTagline: {
     type: String,
-    default: "Making premium SEO tools accessible to everyone",
+    default: "Trusted Premium digital tools by DigiAid",
   },
   logoUrl: {
     type: String,
@@ -23,32 +23,44 @@ const SettingSchema = new mongoose.Schema({
   },
   seoTitle: {
     type: String,
-    default: "SEO Tools - Premium SEO Tools",
+    default: "Digital Tools by DigiAid - Trusted Premium Digital Tools",
   },
   seoDescription: {
     type: String,
-    default: "Get access to premium SEO tools at affordable prices",
+    default: "Shop trusted premium digital tools with hands-on support from DigiAid.",
   },
   supportEmail: {
     type: String,
-    default: "",
+    default: "info@digiaidit.com",
   },
   supportPhone: {
     type: String,
-    default: "01940268500",
+    default: "01316-414532",
   },
   whatsappNumber: {
     type: String,
-    default: "8801940268500",
+    default: "8801316414532",
   },
   facebookChatUrl: {
     type: String,
     default:
-      "https://m.me/PremiumSEOTools?text=Hello%20I%20have%20a%20question",
+      "https://www.facebook.com/profile.php?id=61588189935634",
   },
   whatsappMessage: {
     type: String,
-    default: "Hello! I need some support.",
+    default: "Hello! I need support with Digital Tools by DigiAid.",
+  },
+  websiteUrl: {
+    type: String,
+    default: "https://digiaidit.com",
+  },
+  contactAddress: {
+    type: String,
+    default: "Dhaka, Dhaka, Bangladesh, 1219",
+  },
+  affiliateUrl: {
+    type: String,
+    default: "/affiliate-program",
   },
   extensionDownloadUrl: {
     type: String,
@@ -85,31 +97,71 @@ const SettingSchema = new mongoose.Schema({
 
 if (mongoose.models.Setting) {
   const schema = mongoose.models.Setting.schema;
+  const fieldsToAdd: Record<string, any> = {};
+
   if (!schema.path('siteName')) {
-    schema.add({
-      siteName: { type: String, default: "SEO Tools" },
+    Object.assign(fieldsToAdd, {
+      siteName: { type: String, default: "Digital Tools by DigiAid" },
       siteTagline: {
         type: String,
-        default: "Making premium SEO tools accessible to everyone",
+        default: "Trusted Premium digital tools by DigiAid",
       },
       logoUrl: { type: String, default: "/logo.png" },
       faviconUrl: { type: String, default: "/favicon.ico" },
       footerText: { type: String, default: "" },
-      seoTitle: { type: String, default: "SEO Tools - Premium SEO Tools" },
+      seoTitle: {
+        type: String,
+        default: "Digital Tools by DigiAid - Trusted Premium Digital Tools",
+      },
       seoDescription: {
         type: String,
-        default: "Get access to premium SEO tools at affordable prices",
+        default: "Shop trusted premium digital tools with hands-on support from DigiAid.",
       },
-      supportEmail: { type: String, default: "" },
-      supportPhone: { type: String, default: "01940268500" },
-      whatsappNumber: { type: String, default: "8801940268500" },
+      supportEmail: { type: String, default: "info@digiaidit.com" },
+      supportPhone: { type: String, default: "01316-414532" },
+      whatsappNumber: { type: String, default: "8801316414532" },
       facebookChatUrl: {
         type: String,
-        default:
-          "https://m.me/PremiumSEOTools?text=Hello%20I%20have%20a%20question",
+        default: "https://www.facebook.com/profile.php?id=61588189935634",
       },
-      whatsappMessage: { type: String, default: "Hello! I need some support." },
+      whatsappMessage: {
+        type: String,
+        default: "Hello! I need support with Digital Tools by DigiAid.",
+      },
+      websiteUrl: { type: String, default: "https://digiaidit.com" },
+      contactAddress: {
+        type: String,
+        default: "Dhaka, Dhaka, Bangladesh, 1219",
+      },
+      affiliateUrl: { type: String, default: "/affiliate-program" },
       extensionDownloadUrl: { type: String, default: "" },
+    });
+  }
+
+  if (!schema.path('websiteUrl')) {
+    Object.assign(fieldsToAdd, {
+      websiteUrl: { type: String, default: "https://digiaidit.com" },
+    });
+  }
+
+  if (!schema.path('contactAddress')) {
+    Object.assign(fieldsToAdd, {
+      contactAddress: {
+        type: String,
+        default: "Dhaka, Dhaka, Bangladesh, 1219",
+      },
+    });
+  }
+
+  if (!schema.path('affiliateUrl')) {
+    Object.assign(fieldsToAdd, {
+      affiliateUrl: { type: String, default: "/affiliate-program" },
+    });
+  }
+
+  if (Object.keys(fieldsToAdd).length > 0) {
+    schema.add({
+      ...fieldsToAdd,
     });
   }
 }

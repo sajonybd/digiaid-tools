@@ -186,7 +186,7 @@ function SuccessContent() {
             <CardContent className="space-y-4">
               <p className="text-sm text-muted-foreground leading-relaxed">
                 {isApproved
-                  ? "Your subscriptions are already active. Head over to your dashboard to start using your premium SEO tools."
+                  ? "Your subscriptions are already active. Head over to your dashboard to start using your premium digital tools."
                   : isRejected
                   ? "Since your payment was not verified, your tools have not been activated. You can try placing the order again with correct details."
                   : "Our team is verifying your transaction. This usually takes 15-30 minutes during business hours. You'll receive an email once your tools are active."}

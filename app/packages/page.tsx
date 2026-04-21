@@ -23,7 +23,7 @@ export default async function PackagesPage() {
   const packages = await Package.find({ 
       status: 'active', 
       visibility: 'public',
-  }).sort({ price: 1, createdAt: -1 }).populate('tools');
+  }).sort({ sortOrder: 1, price: 1, createdAt: -1 }).populate('tools');
 
   // Separate Featured vs Standard
   // Logic: "Featured" if is_featured is true. 
@@ -40,10 +40,10 @@ export default async function PackagesPage() {
         <div className="max-w-7xl mx-auto">
             <div className="text-center mb-16">
                 <h1 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary mb-4">
-                    Our Packages
+                    All Products Shop
                 </h1>
                 <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                    Choose a featured plan for maximum savings, or pick individual tools.
+                    Browse featured bundles, standard packages, and individual product access in one place.
                 </p>
             </div>
 

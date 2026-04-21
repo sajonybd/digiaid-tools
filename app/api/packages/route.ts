@@ -39,7 +39,7 @@ export async function GET(req: Request) {
   try {
     const packages = await Package.find(query)
       .populate('tools')
-      .sort({ createdAt: -1 });
+      .sort({ sortOrder: 1, price: 1, createdAt: -1 });
     return NextResponse.json(packages);
   } catch (error) {
     console.error("Failed to fetch packages:", error);

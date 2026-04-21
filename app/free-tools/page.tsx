@@ -31,7 +31,7 @@ export default async function FreeToolsPage() {
         <div className="max-w-7xl mx-auto">
             <div className="text-center mb-12">
                 <h1 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary mb-4">
-                    Free SEO Tools
+                    Free Digital Tools
                 </h1>
                 <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
                     Powerfull tools completely free to use. No credit card required.

@@ -33,6 +33,7 @@ export function PackageForm({ initialData, isEdit }: PackageFormProps) {
         price: initialData?.price || 0,
         interval: initialData?.interval || "monthly",
         description: initialData?.description || "",
+        sortOrder: initialData?.sortOrder || 0,
         status: initialData?.status || "active",
         visibility: initialData?.visibility || "public",
         is_featured: initialData?.is_featured || false,
@@ -104,6 +105,20 @@ export function PackageForm({ initialData, isEdit }: PackageFormProps) {
                         </SelectContent>
                     </Select>
                 </div>
+            </div>
+
+            <div className="space-y-2">
+                <Label>Package Sort Order</Label>
+                <Input
+                    type="number"
+                    value={formData.sortOrder}
+                    onChange={e => setFormData({...formData, sortOrder: Number(e.target.value)})}
+                    min="0"
+                    step="1"
+                />
+                <p className="text-xs text-muted-foreground">
+                    Lower numbers appear first in the package listing.
+                </p>
             </div>
 
             <div className="grid grid-cols-2 gap-4">

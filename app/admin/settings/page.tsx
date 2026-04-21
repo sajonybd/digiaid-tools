@@ -26,6 +26,9 @@ export default function SettingsPage() {
     whatsappNumber: "",
     facebookChatUrl: "",
     whatsappMessage: "",
+    websiteUrl: "",
+    contactAddress: "",
+    affiliateUrl: "",
     extensionDownloadUrl: "",
     gtmId: "",
     ga4MeasurementId: "",
@@ -58,6 +61,9 @@ export default function SettingsPage() {
             whatsappNumber: data.whatsappNumber || "",
             facebookChatUrl: data.facebookChatUrl || "",
             whatsappMessage: data.whatsappMessage || "",
+            websiteUrl: data.websiteUrl || "",
+            contactAddress: data.contactAddress || "",
+            affiliateUrl: data.affiliateUrl || "",
             extensionDownloadUrl: data.extensionDownloadUrl || "",
             gtmId: data.gtmId || "",
             ga4MeasurementId: data.ga4MeasurementId || "",
@@ -183,6 +189,18 @@ export default function SettingsPage() {
               <div className="space-y-2">
                 <Label htmlFor="facebookChatUrl">Facebook Chat URL</Label>
                 <Input id="facebookChatUrl" placeholder="https://m.me/your-page" value={settings.facebookChatUrl} onChange={handleChange} />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="websiteUrl">Website URL</Label>
+                <Input id="websiteUrl" placeholder="https://digiaidit.com" value={settings.websiteUrl} onChange={handleChange} />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="affiliateUrl">Affiliate Link</Label>
+                <Input id="affiliateUrl" placeholder="/affiliate-program or https://..." value={settings.affiliateUrl} onChange={handleChange} />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="contactAddress">Business Address</Label>
+                <Textarea id="contactAddress" placeholder="Dhaka, Dhaka, Bangladesh, 1219" value={settings.contactAddress} onChange={handleChange} />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="extensionDownloadUrl">Extension Download URL (Restricted)</Label>
