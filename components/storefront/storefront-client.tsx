@@ -190,6 +190,7 @@ function StorefrontProductCard({ product }: { product: StorefrontProduct }) {
   const router = useRouter();
 
   const cartId = product.packageId || product._id;
+  const detailId = product.packageId || product._id;
 
   const handleAddToCart = () => {
     addToCart(
@@ -220,7 +221,7 @@ function StorefrontProductCard({ product }: { product: StorefrontProduct }) {
 
   return (
     <article className="group relative flex h-full flex-col rounded-3xl border border-border bg-card p-4 shadow-sm transition-all hover:-translate-y-1 hover:border-primary/30 hover:shadow-xl">
-      <Link href={`/tools/${product._id}`} className="mb-4 block overflow-hidden rounded-2xl">
+      <Link href={`/tools/${detailId}`} className="mb-4 block overflow-hidden rounded-2xl">
         <ProductVisual product={product} className="rounded-2xl" imageClassName="h-40 w-full" />
       </Link>
 
@@ -248,7 +249,7 @@ function StorefrontProductCard({ product }: { product: StorefrontProduct }) {
       </div>
 
       <h3 className="text-base font-bold leading-tight text-foreground">
-        <Link href={`/tools/${product._id}`} className="hover:text-primary">
+        <Link href={`/tools/${detailId}`} className="hover:text-primary">
           {product.name}
         </Link>
       </h3>
@@ -459,6 +460,7 @@ function StorefrontFooter() {
 function HeroSection({ products }: { products: StorefrontProduct[] }) {
   const siteSettings = useSiteSettings();
   const categories = new Set(products.map((product) => product.category)).size;
+  const heroVideoUrl = "https://www.youtube.com/embed/yVvvA8kaIuk";
 
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-orange-50 via-white to-orange-50/60">
@@ -514,15 +516,34 @@ function HeroSection({ products }: { products: StorefrontProduct[] }) {
         </div>
 
         <div className="relative">
-          <div className="rounded-[28px] border border-border bg-card p-5 shadow-xl">
-            <div className="grid gap-4 sm:grid-cols-2">
-              {products.slice(0, 4).map((product) => (
-                <div key={product._id} className="rounded-2xl border border-border bg-background p-3">
-                  <ProductVisual product={product} className="rounded-xl" imageClassName="h-28 w-full" />
-                  <h3 className="mt-3 text-sm font-bold">{product.name}</h3>
-                  <p className="mt-1 text-xs text-muted-foreground">{product.category}</p>
-                </div>
-              ))}
+          <div className="rounded-[28px] border border-border bg-card p-4 shadow-xl sm:p-5">
+            <div className="overflow-hidden rounded-2xl border border-border bg-black shadow-sm">
+              <div className="aspect-video w-full">
+                <iframe
+                  className="h-full w-full"
+                  src={heroVideoUrl}
+                  title={`${siteSettings.siteName} hero video`}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  allowFullScreen
+                />
+              </div>
+            </div>
+            <div className="mt-4 flex items-center justify-between gap-3 rounded-2xl border border-border bg-background px-4 py-3">
+              <div>
+                <p className="text-sm font-semibold text-foreground">Watch how it works</p>
+                <p className="text-xs text-muted-foreground">
+                  Quick overview of the tools, workflow, and support experience.
+                </p>
+              </div>
+              <a
+                href="https://www.youtube.com/watch?v=yVvvA8kaIuk"
+                target="_blank"
+                rel="noreferrer"
+                className="text-sm font-semibold text-primary transition-colors hover:text-primary/80"
+              >
+                Open on YouTube
+              </a>
             </div>
           </div>
         </div>

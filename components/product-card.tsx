@@ -1,27 +1,25 @@
 "use client";
 
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useCart } from "@/components/providers/cart-provider";
-import { Check, ShoppingCart, Loader2 } from "lucide-react";
+import { Check, ShoppingCart } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { PriceDisplay } from "@/components/price-display";
-
-interface ProductCardProps {
-    pkg: any; // Package Object
-}
 
 export function ProductCard({ pkg }: { pkg: any }) {
   const { addToCart } = useCart();
   const router = useRouter();
+  const packageId =
+    typeof pkg.packageId === "string" ? pkg.packageId : pkg.packageId?._id;
 
   // Logic to handle both "Package" (bundles) and "Tool" (single items)
   // If it's a Tool (has packageId), we use that packageId for the cart.
   // If it's a Package, we use its _id.
-  const cartId = pkg.packageId || pkg._id;
+  const cartId = packageId || pkg._id;
+  const detailId = packageId || pkg._id;
   const displayName = pkg.name;
   const displayImage = pkg.image; // Tools have image at top level
   const price = pkg.price;
@@ -107,7 +105,7 @@ export function ProductCard({ pkg }: { pkg: any }) {
         </Button>
       </CardFooter>
       
-       <Link href={`/tools/${pkg._id}`} className="block text-center text-xs text-muted-foreground hover:text-primary mt-2 pb-2">
+       <Link href={`/tools/${detailId}`} className="block text-center text-xs text-muted-foreground hover:text-primary mt-2 pb-2">
             View Details
        </Link>
     </Card>

@@ -28,7 +28,7 @@ export const defaultSiteSettings: PublicSiteSettings = {
   siteName: "Digital Tools by DigiAid",
   siteTagline: "Trusted Premium digital tools by DigiAid",
   logoUrl: "/logo.png",
-  faviconUrl: "/favicon.ico",
+  faviconUrl: "/logo.png",
   footerText: "",
   seoTitle: "Digital Tools by DigiAid - Trusted Premium Digital Tools",
   seoDescription: "Shop trusted premium digital tools with hands-on support from DigiAid.",
@@ -75,12 +75,16 @@ export async function getPublicSiteSettings(): Promise<PublicSiteSettings> {
 export async function buildSiteMetadata(pageTitle?: string): Promise<Metadata> {
   const settings = await getPublicSiteSettings();
   const title = pageTitle ? `${pageTitle} - ${settings.siteName}` : settings.seoTitle;
+  const iconUrl =
+    settings.faviconUrl && settings.faviconUrl !== "/favicon.ico"
+      ? settings.faviconUrl
+      : settings.logoUrl || "/logo.png";
 
   return {
     title,
     description: settings.seoDescription,
     icons: {
-      icon: settings.faviconUrl || settings.logoUrl || "/favicon.ico",
+      icon: iconUrl,
     },
   };
 }
